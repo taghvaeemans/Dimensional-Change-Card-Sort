@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>بازی کارت‌ها – آزمون انعطاف‌پذیری شناختی (DCCS)</title>
+<style>
+:root{--bg1:#fff1b8;--bg2:#ffd3e6;--bg3:#cfeeff;--ink:#3a2c63;--panel:rgba(255,255,255,.78);--accent:#7a5cff;--accent2:#ff8a3d;--ok:#22b573;--pink:#ff5c8a;--blue:#2e9bff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#2b2257;--bg2:#46204f;--bg3:#1b3552;--ink:#f6f1ff;--panel:rgba(255,255,255,.12)}}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;height:100%;font-family:"Vazirmatn",Tahoma,"Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(135deg,var(--bg1),var(--bg2) 55%,var(--bg3));background-attachment:fixed}
+#stage{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(10px,2.5vh,22px);padding:16px;text-align:center;max-width:720px;margin:0 auto}
+h1{font-size:clamp(28px,7vw,44px);margin:0;font-weight:800}
+h2{font-size:clamp(22px,5vw,30px);margin:0;font-weight:800}
+p{margin:0;font-size:clamp(16px,3.6vw,20px);line-height:1.9;max-width:34em}
+.panel{background:var(--panel);backdrop-filter:blur(6px);border-radius:28px;padding:clamp(16px,4vw,28px);box-shadow:0 10px 30px rgba(90,60,160,.18)}
+.btn{font:inherit;font-weight:800;font-size:clamp(18px,4.4vw,24px);color:#fff;border:0;border-radius:999px;padding:.6em 1.8em;cursor:pointer;background:linear-gradient(135deg,var(--accent2),#ff5c8a);box-shadow:0 8px 0 rgba(150,50,90,.3);transition:transform .1s}
+.btn:active{transform:translateY(5px);box-shadow:0 3px 0 rgba(150,50,90,.3)}
+.btn.alt{background:linear-gradient(135deg,#7a5cff,#2e9bff);box-shadow:0 8px 0 rgba(50,60,150,.3)}
+button:focus-visible{outline:4px solid var(--accent);outline-offset:3px}
+svg{width:100%;height:100%;display:block}.stim svg{width:78%;height:78%}.tgt svg{width:70%;height:70%}
+.row{display:flex;gap:clamp(8px,2.5vw,30px);justify-content:center;direction:ltr;align-items:center}
+.tgt{touch-action:manipulation;width:clamp(96px,min(40vw,30vh),270px);aspect-ratio:1;border-radius:28px;background:var(--panel);border:4px dashed var(--accent);padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s,box-shadow .2s}
+.tgt:active{transform:scale(.94)}
+.tgt.good{box-shadow:0 0 0 6px var(--ok);transform:scale(1.03)}
+.tgt.demo{cursor:default;width:clamp(90px,min(34vw,20vh),170px)}
+.stim{width:clamp(110px,min(56vw,32vh),320px);aspect-ratio:1;border-radius:28px;background:#fff;padding:0;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(60,40,120,.25);border:0 solid #3a2c63}
+.stim.frame{border-width:9px}
+.stim.hide{opacity:0}
+.stim.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-12px)}75%{transform:translateX(12px)}}
+@media (prefers-reduced-motion:reduce){.stim.shake{animation:none}.tgt,.btn{transition:none}}
+.cue{font-weight:800;font-size:clamp(22px,6vw,34px);color:#fff;border-radius:999px;padding:.35em 1.4em;min-width:7em}
+.cue.color{background:linear-gradient(135deg,#ff8a3d,#ff5c8a)}
+.cue.shape{background:linear-gradient(135deg,#7a5cff,#2e9bff)}
+.bar{width:min(420px,80vw);height:14px;border-radius:99px;background:var(--panel);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffd23f,#ff5c8a);transition:width .25s}
+.msg{min-height:2em;font-weight:800;font-size:clamp(18px,4.5vw,24px)}
+.mute{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:10px;font-size:24px;background:var(--panel);border:0;border-radius:50%;width:46px;height:46px;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;width:100%}
+.stat{background:var(--panel);border-radius:22px;padding:14px}
+.stat b{display:block;font-size:clamp(22px,6vw,32px);color:var(--accent)}
+.stat span{font-size:15px}
+.stars{font-size:clamp(34px,9vw,56px);letter-spacing:.1em}
+.small{font-size:14px;opacity:.8}
+.how{text-align:right;width:100%}.how p{max-width:none;font-size:clamp(15px,3.5vw,18px);line-height:1.7}
+.how ol{margin:.3em 0 .6em;padding-inline-start:1.4em;line-height:2;font-size:clamp(15px,3.5vw,19px)}
+.ex{display:flex;gap:14px;align-items:center;background:var(--panel);border-radius:20px;padding:12px;margin:8px 0}
+.ex .exr{flex:1;display:grid;gap:8px;font-size:clamp(14px,3.4vw,18px)}
+.mini{display:inline-block;width:56px;height:56px;vertical-align:middle}
+.mini.card{background:#fff;border-radius:14px;padding:8px;width:76px;height:76px;flex:none}
+.cue.sm{font-size:15px;padding:.15em .8em;min-width:0;display:inline-block}
+@media (max-height:480px){.bar{display:none}.msg{min-height:1.2em;font-size:16px}#stage{gap:4px;padding:6px}.cue{font-size:18px;padding:.2em 1em;min-width:0}.stim{width:27vh}.tgt{width:25vh}.tgt.demo{width:20vh}h1{font-size:26px}p{line-height:1.6}}
+.cue.chg{animation:pulse .7s 2}@keyframes pulse{50%{transform:scale(1.08)}}@media (prefers-reduced-motion:reduce){.cue.chg{animation:none}}
+.nm{display:block;width:100%;font-weight:800;text-align:right}.nm input{display:block;width:100%;margin-top:6px;font:inherit;font-size:max(16px,1.1em);padding:.6em .9em;border-radius:18px;border:3px solid var(--accent);background:var(--panel);color:var(--ink)}
+.acts .btn{font-size:clamp(15px,3.8vw,19px);padding:.55em 1.2em}.btn.green{background:linear-gradient(135deg,#22b573,#2e9bff);box-shadow:0 8px 0 rgba(20,100,100,.3)}
+a.btn{text-decoration:none;display:inline-block}
+.exb{display:flex;flex-direction:column;align-items:center;gap:6px}.mini.bx{width:clamp(48px,13vw,68px);height:clamp(48px,13vw,68px);border:3px dashed var(--accent);border-radius:18px;padding:8px;background:var(--panel)}
+.startbar{position:sticky;bottom:calc(env(safe-area-inset-bottom,0px) + 8px);display:flex;gap:10px;align-items:center;width:100%;padding:8px;border-radius:999px;background:var(--panel);backdrop-filter:blur(10px);box-shadow:0 8px 24px rgba(60,40,120,.22)}.startbar input{flex:1;min-width:0;font:inherit;font-size:max(16px,1em);padding:.6em 1em;border-radius:999px;border:3px solid var(--accent);background:var(--panel);color:var(--ink)}.startbar .btn{white-space:nowrap;padding:.55em 1.4em}
+.seg{display:flex;gap:8px;justify-content:center;margin:4px 0}.seg button{font:inherit;font-weight:800;border:3px solid var(--accent);background:transparent;color:var(--ink);border-radius:999px;padding:.35em 1.3em;cursor:pointer}.seg button.on{background:var(--accent);color:#fff}
+.tbar{width:min(420px,80vw);height:7px;border-radius:99px;background:var(--panel);overflow:hidden;margin-top:-10px}.tbar i{display:block;height:100%;width:0;background:#ff5c8a}
+</style>
+</head>
+<body>
+<button class="mute" id="mute" aria-label="قطع و وصل صدا">🔊</button>
+<main id="stage"></main>
+<script>
+const $=s=>document.querySelector(s), fa=n=>Number(n).toLocaleString('fa-IR');
+const COL={pink:'#ff5c8a',blue:'#2e9bff',yellow:'#ffb703'}, RN={color:'رنگ',shape:'شکل'};
+const STAR='50,6 62,36 94,38 69,58 78,90 50,72 22,90 31,58 6,38 38,36';
+const HEART='M50 88C10 58 6 30 28 20 40 15 48 22 50 30 52 22 60 15 72 20 94 30 90 58 50 88Z';
+const CN={pink:'صورتی',blue:'آبی',yellow:'زرد'},SN={heart:'قلب',star:'ستاره',flower:'گل'};
+const body=(sh,c)=>{const a=`fill="${COL[c]}" stroke="#fff" stroke-width="4" stroke-linejoin="round"`;
+  if(sh==='star')return `<polygon points="${STAR}" ${a}/>`;
+  if(sh==='heart')return `<path d="${HEART}" ${a}/>`;
+  return [[50,24],[74.7,42],[65.3,71],[34.7,71],[25.3,42]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="19" ${a}/>`).join('')+`<circle cx="50" cy="50" r="13" fill="#fff"/>`};
+const icon=(sh,c)=>`<svg viewBox="0 0 100 100" aria-hidden="true">${body(sh,c)}</svg>`;
+let NAME='';const esc=t=>t.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+let AC,muted=false;
+function tone(f,d=.12,t='sine'){if(muted)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();const s=AC.currentTime;f.forEach((q,i)=>{const o=AC.createOscillator(),g=AC.createGain();o.type=t;o.frequency.value=q;const a=s+i*d;g.gain.setValueAtTime(.0001,a);g.gain.exponentialRampToValueAtTime(.14,a+.02);g.gain.exponentialRampToValueAtTime(.0001,a+d);o.connect(g);g.connect(AC.destination);o.start(a);o.stop(a+d+.02)})}catch(e){}}
+$('#mute').onclick=e=>{muted=!muted;e.target.textContent=muted?'🔇':'🔊'};
+
+let S,HARD=false;const LIM=1500;
+function genMix(h){const n=h?30:20,lo=h?16:8,hi=h?22:12;let m;do{m=shuffle([...Array(n/2).fill('color'),...Array(n/2).fill('shape')]);const sw=m.filter((r,i)=>i&&r!==m[i-1]).length;if(runMax(m)<=3&&sw>=lo&&sw<=hi)break}while(true);return m}
+function runMax(a){let b=1,c=1;for(let i=1;i<a.length;i++){c=a[i]===a[i-1]?c+1:1;b=Math.max(b,c)}return b}
+const corr=(stim,rule)=>S.T.findIndex(t=>t[rule]===stim[rule]);
+function init(){
+  const first=Math.random()<.5?'color':'shape', other=first==='color'?'shape':'color';
+  const cs=shuffle(['pink','blue','yellow']).slice(0,2),ss=shuffle(['heart','star','flower']).slice(0,2);
+  const T=shuffle([0,1].map(i=>({color:cs[i],shape:ss[i]})));
+  S={T,first,other,data:[]};
+  // کارت آزمون یک ویژگی را از یک جعبه و ویژگی دیگر را از جعبهٔ دیگر دارد؛ جعبهٔ درست در هر قانون متوازن است
+  const mk=(rules,pr)=>{const q={};['color','shape'].forEach(r=>{const c=rules.filter(x=>x===r).length;q[r]=shuffle(Array.from({length:c},(_,i)=>i%2))});
+    return rules.map(r=>{const p=q[r].pop(),o=1-p,t=T[p],u=T[o];
+      return{rule:r,practice:pr,stim:r==='color'?{color:t.color,shape:u.shape}:{shape:t.shape,color:u.color}}})};
+  const m=genMix(false);S.mk=mk;
+  S.blocks=[
+    {key:'pre',title:`بازی ${RN[first]}‌ها`,rule:first,trials:[...mk([first,first],true),...mk(Array(6).fill(first),false)]},
+    {key:'post',rule:other,trials:mk(Array(6).fill(other),false)},
+    {key:'mix',title:'بازی ترکیبی',rule:null,trials:[...mk(shuffle(['color','shape']),true),...mk(m,false)]}];
+}
+const show=h=>{$('#stage').innerHTML=h;window.scrollTo(0,0)};
+const demo=()=>`<div class="row">${S.T.map(t=>`<div class="tgt demo">${icon(t.shape,t.color)}</div>`).join('')}</div>`;
+
+function intro(){init();
+  const ex={color:S.T[0].color,shape:S.T[1].shape};
+  show(`<h1>🎴 بازی کارت‌ها</h1>
+<div class="seg" role="group" aria-label="حالت بازی"><button type="button" id="m0">حالت عادی</button><button type="button" id="m1">حالت سخت ⏱️</button></div><p class="small" id="mdesc" style="margin-top:-6px"></p>
+<div class="panel how"><p><b>در این بازی چه کار می‌کنی؟</b></p>
+<p>در هر دور یک کارت می‌آید. آن را به یکی از دو جعبهٔ پایین صفحه بفرست. بالای صفحه نوشته می‌شود با چه قانونی:</p>
+<p><span class="cue color sm">🎨 رنگ</span> جعبه‌ای را بزن که همرنگ کارت است.<br><span class="cue shape sm">🔷 شکل</span> جعبه‌ای را بزن که همشکل کارت است.</p>
+<p><b>مثال</b></p>
+<div class="ex" style="flex-direction:column"><div class="mini card">${icon(ex.shape,ex.color)}</div>
+<div class="row">${S.T.map((t,k)=>`<div class="exb"><div class="mini bx">${icon(t.shape,t.color)}</div>${k<2?`<span class="cue ${k?'shape':'color'} sm">${k?'🔷 شکل':'🎨 رنگ'}</span>`:''}</div>`).join('')}</div></div>
+<p>رنگ کارت ${CN[ex.color]} و شکلش ${SN[ex.shape]} است.<br>اگر بالای صفحه «رنگ» بود، جعبهٔ ${CN[ex.color]} را بزن. اگر «شکل» بود، جعبهٔ ${SN[ex.shape]} را بزن.</p>
+<p>🔸 تند و درست جواب بده.<br>🔸 همیشه بالای صفحه را نگاه کن.<br>🔸 اگر اشتباه کردی نگران نباش، ادامه بده.</p>
+</div>
+<div class="startbar"><input id="nm" type="text" maxlength="40" autocomplete="off" aria-label="نام دانش‌آموز" placeholder="👤 نام دانش‌آموز (اختیاری)" value="${esc(NAME)}"><button class="btn" id="go">شروع</button></div>`);const setM=h=>{HARD=h;$('#m0').classList.toggle('on',!h);$('#m1').classList.toggle('on',h);$('#mdesc').textContent=h?'۴۶ کارت دارد؛ در کارت‌های اصلی هر کارت فقط ۱٫۵ ثانیه وقت داری و قانون بیشتر عوض می‌شود.':'۳۶ کارت دارد و حدود ۲ دقیقه طول می‌کشد؛ برای هر کارت محدودیت زمان نیست.'};
+  $('#m0').onclick=()=>setM(false);$('#m1').onclick=()=>setM(true);setM(HARD);
+  $('#go').onclick=()=>{NAME=$('#nm').value.trim();S.blocks[2].trials=[...S.mk(shuffle(['color','shape']),true),...S.mk(genMix(HARD),false)];tone([523,659,784]);instr(0)}}
+
+function instr(i){const b=S.blocks[i];let body;
+  if(b.key==='mix')body=`<p>حالا بالای صفحه نگاه کن:<br>اگر نوشته <b>رنگ</b> بود، کارت را بر اساس رنگش بفرست.<br>اگر نوشته <b>شکل</b> بود، بر اساس شکلش بفرست.<br>کارت‌های <b>قاب‌دار</b> همیشه بازی رنگ‌اند و کارت‌های بی‌قاب بازی شکل. 🌈</p><div class="row"><span class="cue color">🎨 رنگ</span><span class="cue shape">🔷 شکل</span></div>`;
+  else body=`<p>${b.rule==='color'?'کارت را به جعبه‌ای بفرست که <b>همرنگ</b> آن است.':'کارت را به جعبه‌ای بفرست که <b>همشکل</b> آن است.'}</p>${demo()}`;
+  show(`<h2>${b.title}</h2><div class="panel">${body}</div><p class="small">اول دو بار تمرین می‌کنیم؛ تمرین‌ها بازخورد دارند.${HARD?'<br>⏱️ در کارت‌های اصلی هر کارت ۱٫۵ ثانیه وقت داری.':''}</p><button class="btn alt" id="go">آماده‌ام!</button>`);
+  $('#go').onclick=()=>{tone([660,880]);runBlock(i)}}
+
+function runBlock(bi){
+  const TL=S.blocks[bi].trials;let i=0,active=false,t0=0,prev=null,tr,to=0;
+  show(`<div class="cue" id="cue"></div><div class="bar"><i id="pg"></i></div>${HARD?'<div class="tbar"><i id="tm"></i></div>':''}<div class="stim" id="st"></div><div class="msg" id="msg" aria-live="polite"></div>
+  <div class="row">${S.T.map((t,k)=>`<button class="tgt" id="t${k}" aria-label="جعبهٔ ${fa(k+1)}">${icon(t.shape,t.color)}</button>`).join('')}</div>`);
+  const timeout=()=>{if(!active)return;active=false;S.data.push({b:S.blocks[bi].key,rule:tr.rule,prev,ok:false,rt:LIM,pe:false,to:true});prev=tr.rule;$('#msg').textContent='زمان تمام شد ⏱️';tone([330],.12,'triangle');setTimeout(()=>{i++;next()},350)};
+  const answer=k=>{if(!active)return;active=false;clearTimeout(to);const rt=performance.now()-t0,c=corr(tr.stim,tr.rule),ok=k===c,st=$('#st');
+    if(!tr.practice)S.data.push({b:S.blocks[bi].key,rule:tr.rule,prev,ok,rt,pe:!ok&&k===corr(tr.stim,S.first)});
+    prev=tr.rule;
+    if(tr.practice){$('#t'+c).classList.add('good');if(ok){$('#msg').textContent='آفرین! ⭐';tone([523,659,784,1047],.09)}else{st.classList.add('shake');$('#msg').textContent='جعبهٔ درست این بود. قانون بالا را نگاه کن 🙂';tone([330,294],.14,'triangle')}}
+    else tone([620],.07);
+    setTimeout(()=>{i++;next()},tr.practice?800:140)};
+  const next=()=>{
+    if(i>=TL.length)return bi===0?runBlock(1):bi===1?instr(2):results();
+    tr=TL[i];const st=$('#st'),cue=$('#cue'),chg=bi===1&&i===0;clearTimeout(to);if(HARD){const tm=$('#tm');tm.style.transition='none';tm.style.width='0'}
+    [0,1].forEach(k=>$('#t'+k).classList.remove('good'));$('#msg').textContent='';
+    cue.textContent=(chg?'قانون عوض شد! ':'')+(tr.rule==='color'?'🎨 ':'🔷 ')+RN[tr.rule];
+    cue.className='cue '+tr.rule+(chg?' chg':'');
+    $('#pg').style.width=(i/TL.length*100)+'%';
+    st.className='stim hide';
+    setTimeout(()=>{st.innerHTML=icon(tr.stim.shape,tr.stim.color);st.className='stim'+(bi===2&&tr.rule==='color'?' frame':'');t0=performance.now();active=true;if(HARD&&!tr.practice){const tm=$('#tm');tm.style.transition='none';tm.style.width='100%';void tm.offsetWidth;tm.style.transition=`width ${LIM}ms linear`;tm.style.width='0';to=setTimeout(timeout,LIM)}},tr.practice?450:300)};
+  [0,1].forEach(k=>$('#t'+k).onclick=()=>answer(k));
+  window.onkeydown=e=>{const k={ArrowLeft:0,ArrowRight:1,'1':0,'2':1}[e.key];if(k!==undefined)answer(k)};
+  next()}
+
+function results(){window.onkeydown=null;tone([523,659,784,1047,1319],.11);
+  const D=k=>S.data.filter(d=>d.b===k),acc=a=>a.length?a.filter(d=>d.ok).length/a.length:0;
+  const rt=a=>{const c=a.filter(d=>d.ok);return c.length?c.reduce((s,d)=>s+d.rt,0)/c.length:0};
+  const pre=D('pre'),post=D('post'),mix=D('mix').filter(d=>d.prev);
+  const sw=mix.filter(d=>d.rule!==d.prev),rp=mix.filter(d=>d.rule===d.prev);
+  const cost=rt(sw)-rt(rp),postOK=post.filter(d=>d.ok).length,persev=post.filter(d=>d.pe).length;
+  const rtS=a=>a.some(d=>d.ok)?ms(rt(a)):'—';
+  const pct=a=>fa(Math.round(acc(a)*100))+'٪',ms=n=>fa(Math.round(n))+' م‌ث';
+  const note=`آفرین${NAME?' '+esc(NAME):''}، که بازی را تا پایان انجام دادی! 🌟<br>سعی کن هر روز یک بار بازی کنی؛ تمرین کوتاه و مداوم برای ذهن عالی است.`;
+  show(`<h1>🎉 بازی تمام شد!</h1><div class="stars">⭐⭐⭐</div><div class="panel"><p>${note}</p></div>
+  <div class="grid">
+   <div class="stat"><b>${pct(pre)}</b><span>درستی قانون اول</span></div>
+   <div class="stat"><b>${fa(postOK)} از ${fa(post.length)}</b><span>درست پس از تغییر قانون</span></div>
+   <div class="stat"><b>${pct(mix)}</b><span>درستی بلوک ترکیبی</span></div>
+   <div class="stat"><b>${rtS(pre)}</b><span>میانگین زمان پاسخ قانون اول</span></div>
+   <div class="stat"><b>${rtS(post)}</b><span>میانگین زمان پاسخ پس از تغییر</span></div>
+   <div class="stat"><b>${ms(Math.abs(cost))}</b><span>هزینهٔ تغییر: عوض‌کردن قانون ${cost>=0?'کندتر':'سریع‌تر'} بود</span></div>
+   <div class="stat"><b>${fa(persev)}</b><span>پاسخ به قانون قبلی (پافشاری)</span></div>${HARD?`<div class="stat"><b>${fa(S.data.filter(d=>d.to).length)}</b><span>کارت بی‌پاسخ (تمام شدن زمان)</span></div>`:''}
+  </div>
+  <div class="row acts" style="flex-wrap:wrap"><button class="btn green" id="copy" aria-label="کپی نتایج">📋 کپی نتایج</button><button class="btn" id="again">🔁 دوباره بازی کن</button></div><div id="shbox" aria-live="polite"></div>`);
+  $('#again').onclick=intro;
+  const txt=`🎴 نتیجهٔ بازی کارت‌ها (آزمون انعطاف‌پذیری شناختی DCCS)\n${NAME?'👤 نام دانش‌آموز: '+NAME+'\n':''}✅ درستی قانون اول: ${pct(pre)}\n🔄 درست پس از تغییر قانون: ${fa(postOK)} از ${fa(post.length)}\n🌈 درستی بلوک ترکیبی: ${pct(mix)}\n⏱️ هزینهٔ تغییر: ${ms(Math.abs(cost))} ${cost>=0?'کندتر':'سریع‌تر'}\n↩️ پاسخ به قانون قبلی: ${fa(persev)}${HARD?'\n⏱️ کارت بی‌پاسخ: '+fa(S.data.filter(d=>d.to).length):''}\n🎚️ حالت بازی: ${HARD?'سخت':'عادی'}`;
+  const box=h=>{$('#shbox').innerHTML=h};
+  // کپی همزمان با لمس (بدون await) تا در همهٔ مرورگرها و داخل قاب صفحه کار کند؛ اگر نشد، راه‌های جایگزین
+  const legacyCopy=t=>{const a=document.createElement('textarea');a.value=t;a.readOnly=true;a.style.cssText='position:fixed;top:0;left:0;width:2px;height:2px;opacity:0;font-size:16px';document.body.appendChild(a);a.focus();a.select();try{a.setSelectionRange(0,t.length)}catch(e){}let ok=false;try{ok=document.execCommand('copy')}catch(e){}a.remove();return ok};
+  const preview=(msg,cls)=>{box(`<p class="${cls}">${msg}</p><textarea id="ct" readonly rows="8" style="width:100%;font:inherit;font-size:16px;border-radius:16px;padding:10px;direction:rtl">${esc(txt)}</textarea>`);const ta=$('#ct');ta.focus();ta.select();try{ta.setSelectionRange(0,txt.length)}catch(e){}};
+  $('#copy').onclick=async()=>{
+    let ok=legacyCopy(txt);
+    if(!ok){try{await navigator.clipboard.writeText(txt);ok=true}catch(e){}}
+    if(ok){preview('✓ نتیجه کپی شد. حالا در پیام‌رسان بچسبان.','msg');tone([784,1047],.09)}
+    else preview('کپی خودکار در این مرورگر ممکن نشد. متن انتخاب شده است؛ انگشتت را روی آن نگه دار و «کپی» را بزن.','small')};
+}
+intro();
+</script>
+</body>
+</html>
